@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taffle.dao.ContactMapper">
+	<!-- 添加联系我们到数据库 -->
+	<insert id="addContactMsg" parameterType="Contact">
+		insert into taffle_contact(contactName,contactEmail,contactMessage) 
+			values(#{contactName},#{contactEmail},#{contactMessage})
+	</insert>
+</mapper>

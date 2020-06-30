@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taffle.dao.GoodsMapper">
+	<resultMap type="Goods" id="goodsMap">
+		<id property="goodsId" column="goodsId"/>
+		<association property="category" javaType="Category">
+			<id property="categoryId" column="categoryId"/>
+		</association>
+	</resultMap>
+	<!-- 添加商品 -->
+	<insert id="addGoods" parameterType="Goods">
+		insert into taffle_goods(goodsName,goodsMessage,goodsPhoto,goodsCategory,goodsPrice)
+		values(#{goodsName},#{goodsMessage},#{goodsPhoto},#{category.categoryId},#{goodsPrice})
+	</insert>
+	<!-- 查找分类 -->
+	<select id="findAllCategory" resultType="Category">
+		select * from taffle_category
+	</select>
+	<!-- 查找所有商品 -->
+	<select id="findAllGoods" resultMap="goodsMap">
+		select goodsId,goodsName,goodsMessage,goodsPhoto,goodsCategory,goodsPrice,goodsSell 
+		from taffle_goods left join taffle_category on 
+		taffle_goods.goodsCategory=taffle_category.categoryId
+	</select>
+	<!-- 根据goodsId删除商品 -->
+	<delete id="deleteGoodsByGoodsId">
+		delete from taffle_goods where goodsId=#{goodsId}
+	</delete>
+	<!-- 根据goodsId查找商品 -->
+	<select id="findGoodsByGoodsId" resultMap="goodsMap">
+		select goodsId,goodsName,goodsMessage,goodsPhoto,goodsCategory,goodsPrice,goodsSell
+		from taffle_goods left join taffle_category on 
+		taffle_goods.goodsCategory=taffle_category.categoryId where taffle_goods.goodsId=#{goodsId}
+	</select>
+	<!-- 根据goodsId修改商品 -->
+	<update id="updateGoodsByGoodsId">
+		update taffle_goods set goodsName=#{goodsName},goodsMessage=#{goodsMessage},
+		goodsPhoto=#{goodsPhoto},goodsCategory=#{category.categoryId},goodsPrice=#{goodsPrice}
+		where goodsId=#{goodsId}
+	</update>
+</mapper>
