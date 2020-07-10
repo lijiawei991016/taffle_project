@@ -65,12 +65,12 @@ public class UserController {
 			model.addAttribute("error", "验证码不正确");
 			return "login";
 		}
+		session.setAttribute("loginer", result);
 		if (result.getUserAlice().equals("系统管理员")) {
 			session.setAttribute("loginer", result);
 			return "server_index";
 		}
 		session.removeAttribute("billCodes");
-		session.setAttribute("loginer", result);
 		return "redirect:/";
 	}
 
