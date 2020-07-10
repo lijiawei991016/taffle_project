@@ -5,7 +5,14 @@
 <mapper namespace="com.taffle.dao.ContactMapper">
 	<!-- 添加联系我们到数据库 -->
 	<insert id="addContactMsg" parameterType="Contact">
-		insert into taffle_contact(contactName,contactEmail,contactMessage) 
-			values(#{contactName},#{contactEmail},#{contactMessage})
+		insert into
+		taffle_contact(contactName,contactEmail,contactMessage)
+		values(#{contactName},#{contactEmail},#{contactMessage})
 	</insert>
+	<!-- 获取联系我们信息 -->
+	<select id="findlistcontact" resultType="Contact">
+		select * from
+		taffle_contact
+	</select>
+
 </mapper>

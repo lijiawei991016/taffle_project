@@ -17,11 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/code_img")
 public class CodeImgControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 设置 http 响应头---告诉浏览器我现在发的是这个图片格式的数据，你用相应的方式来解析
-		response.setHeader("Content-Type","image/jpeg");
+		response.setHeader("Content-Type", "image/jpeg");
 		// 定义图片的宽和高
 		int w = 80;
 		int h = 30;
@@ -60,6 +61,7 @@ public class CodeImgControl extends HttpServlet {
 		// 把内存图片 img 对象保存到一个 jpg 文件
 		ImageIO.write(img, "JPEG", response.getOutputStream());
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

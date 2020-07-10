@@ -7,14 +7,28 @@ public class BlogSay {
 	private String sayMessage;
 	private User user;
 	private Date sayCreateDate;
-	public BlogSay() {}
-	public BlogSay(Integer sayId, String sayMessage, User user, Date sayCreateDate) {
+	private Blog blog;
+	
+	
+	public BlogSay(Integer sayId, String sayMessage, User user, Date sayCreateDate, Blog blog) {
 		super();
 		this.sayId = sayId;
 		this.sayMessage = sayMessage;
 		this.user = user;
 		this.sayCreateDate = sayCreateDate;
+		this.blog = blog;
 	}
+	public BlogSay() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Blog getBlog() {
+		return blog;
+	}
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+	
 	public Integer getSayId() {
 		return sayId;
 	}

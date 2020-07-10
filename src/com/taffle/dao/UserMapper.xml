@@ -6,28 +6,59 @@
 
 
 	<!-- 根据账户和密码查找对应账户信息 -->
-	<select id="findUserByIdAndPsw"  resultType="User">
-		select * from taffle_user
-			where userId=#{userId} and userPsw=#{userPsw}
+	<select id="findUserByIdAndPsw" resultType="User">
+		select * from
+		taffle_user
+		where userId=#{userId} and userPsw=#{userPsw}
 	</select>
-	
-	<!-- 根据账户和密码查找对应账户信息 -->
-	<select id="findUserById"  resultType="User">
+
+	<!-- 根据userid查找对应账户信息 -->
+	<select id="findUserById" resultType="User">
 		select * from taffle_user
-			where userId=#{userId} 
+		where userId=#{userId}
 	</select>
-	
-	<insert  id="addNewUser"  parameterType="user">
-	insert into taffle_user(userId,userPsw,userAlice,userEmail,
-			userCreateDate)
-			values(#{userId},#{userPsw},#{userAlice},#{userEmail},
+
+	<insert id="addNewUser" parameterType="user">
+		insert into taffle_user(userId,userPsw,userAlice,userEmail,
+		userCreateDate)
+		values(#{userId},#{userPsw},#{userAlice},#{userEmail},
 		#{userCreateDate})
-	
+
 	</insert>
-	
-	<update id="updateUserPswById" parameterType="user">
-	
-			update taffle_user set userPsw=#{userPsw} where userId=#{userId}
+
+	<!-- 查询所有用户信息 -->
+	<select id="findAllUser" resultType="User">
+		select * from taffle_user
+	</select>
+	<!-- 根据userid修改用户成屏蔽 -->
+	<update id="updateisEnableByuserId1" parameterType="string">
+		update
+		taffle_user set isEnable=1 where userId=#{userId}
+	</update>
+	<!-- 根据userid修改用户成不屏蔽 -->
+	<update id="updateisEnableByuserId0" parameterType="string">
+		update
+		taffle_user set isEnable=0 where userId=#{userId}
+	</update>
+
+	<!-- 根据userId修改userPsw -->
+	<update id="updateUserPswById" parameterType="User">
+		update taffle_user set userPsw=#{userPsw} where userId=#{userId}
+	</update>
+	<!-- 根据userId修改用户部分信息 -->
+	<update id="updateUserMsgByUserId" parameterType="User">
+		update taffle_user set userAlice=#{userAlice},userSex=#{userSex},
+		userPhone=#{userPhone},userEmail=#{userEmail},userAddress=#{userAddress}
+		where userId=#{userId}
+	</update>
+	<!-- 根据 userId 修改 userPhoto -->
+	<update id="updateUserPhotoById" parameterType="string">
+		update taffle_user set userPhoto=#{userPhoto} where userId=#{userId}
+	</update>
+
+	<!-- 根据userid修改用户积分 -->
+	<update id="upuserScore">
+		update taffle_user set userScore=#{userScore} where userId=#{userId}
 	</update>
 </mapper>
 

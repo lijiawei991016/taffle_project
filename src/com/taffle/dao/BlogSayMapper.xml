@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taffle.dao.BlogSayMapper">
+	<resultMap type="BlogSay" id="blogsayMap">
+		<id property="sayId" column="sayId" />
+		<association property="user" javaType="User">
+			<id property="userId" column="userId" />
+		</association>
+		<association property="blog" javaType="Blog">
+			<id property="blogId" column="blogId" />
+		</association>
+	</resultMap>
+	<!-- //添加博客评论 -->
+	<insert id="addblogsay" parameterType="BlogSay">
+		insert into
+		taffle_blog_say(sayMessage,userId,sayCreateDate,blogId)
+		values(#{sayMessage},#{user.userId},#{sayCreateDate},#{blog.blogId})
+	</insert>
+	<!-- 根据blogid 获取其所有对应的博客 -->
+	<select id="findblogsayByblogId" resultMap="blogsayMap">
+		select
+		sayMessage,taffle_blog_say.userId,sayCreateDate,blogId,userAlice,userPhoto
+		from taffle_blog_say left join taffle_user
+		on taffle_blog_say.userId =
+		taffle_user.userId
+		where taffle_blog_say.blogId = #{blogId};
+	</select>
+
+</mapper>

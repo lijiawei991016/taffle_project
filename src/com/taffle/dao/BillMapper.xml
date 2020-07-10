@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taffle.dao.BillMapper">
+	<sql id="studentsql">
+		select * from taffle_bill
+	</sql>
+
+	<!-- 查询所有订单 -->
+	<select id="findAllBill" resultType="com.taffle.pojo.Bill">
+		<include refid="studentsql" />
+	</select>
+
+	<!-- 查询订单状态 -->
+	<select id="findstatus" resultType="com.taffle.pojo.Bill">
+		select status from
+		taffle_bill where billCode=#{billCode}
+	</select>
+
+	<!-- 修改 订单状态 的 status为2已发货 -->
+	<update id="updatefindBillCodetoone" parameterType="String">
+		update
+		taffle_bill set status=2 where billCode=#{billCode}
+	</update>
+
+	<!-- 修改 订单状态 的 status为4已确认订单 -->
+
+	<update id="updatefindBillCodetotwo" parameterType="String">
+		update
+		taffle_bill set status=4 where billCode=#{billCode}
+	</update>
+
+
+	<!-- 删除订单 -->
+	<delete id="deletBillCodebystatus" parameterType="String">
+		delete from
+		taffle_bill where billCode=#{billCode}
+	</delete>
+
+
+	<!-- 修改 订单状态 的 status为1已付款 -->
+
+	<update id="updateBillCode" parameterType="String">
+		update taffle_bill set
+		status=1 where billCode=#{billCode}and userId=#{userId}
+	</update>
+
+
+	<!-- 查询所有对应账户下的的订单 -->
+
+	<!-- 查询所有订单 -->
+	<select id="findAllBillByUid" resultType="com.taffle.pojo.Bill">
+		<include refid="studentsql" />
+		where userId=#{userId}
+	</select>
+
+	<!-- 修改 订单状态 的 status为3已收货 -->
+
+	<update id="updateBillCodeThree" parameterType="String">
+		update
+		taffle_bill set status=3 where billCode=#{billCode}and
+		userId=#{userId}
+	</update>
+
+
+	<!-- 个人订单中心删除订单 -->
+	<delete id="deleteBillCode" parameterType="String">
+		delete from
+		taffle_bill where billCode=#{billCode} and userId=#{userId}
+	</delete>
+
+	<!-- 根据userID和userCode查询订单状态 -->
+	<select id="findstatusBy" resultType="com.taffle.pojo.Bill">
+		select status from
+		taffle_bill where billCode=#{billCode}and userId=#{userId}
+	</select>
+	<!-- 修改支付页面的联系人和收货地址 -->
+	<update id="updateBillByPhoneAndAddress" parameterType="Bill">
+		update taffle_bill set userPhone=#{userPhone},
+		userAddress=#{userAddress} where userId=#{userId} and billCode=#{billCode}
+	</update>
+</mapper>
+		

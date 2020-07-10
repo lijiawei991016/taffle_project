@@ -59,10 +59,42 @@
     </bean>
     
     <!-- 拦截器 -->
+    <mvc:interceptors>
     	<!-- 限制不登录管理员账户就直接访问管理员功能 -->
-    	<!-- 为服务器端获取所有数据列表...... -->
-    	
-    	<!-- 用户登录后才能使用客户端用户功能 -->
-    	<!-- 为客户端获取所有数据列表...... -->
-    	
+    	<mvc:interceptor>
+			<mvc:mapping path="/server/**"/>
+    		<bean class="com.taffle.interceptor.ServerInterceptor" />
+    	</mvc:interceptor>
+    	<!-- 用户登录后才能使用客户端部分功能 -->
+    	<mvc:interceptor>
+    		<!-- 拦截个人信息 -->
+			<mvc:mapping path="/client/client_view_person"/>
+			<mvc:mapping path="/client/client_view_person/"/>
+			<!-- 拦截用户设置 -->
+			<mvc:mapping path="/client/client_update_person"/>
+			<mvc:mapping path="/client/client_update_person/"/>
+			<!-- 拦截密码修改-->
+      		<mvc:mapping path="/client/client_user_alterpsw"/>
+      		<mvc:mapping path="/client/client_user_alterpsw/"/>
+      		<!-- 拦截添加商品到购物车-->
+      		<mvc:mapping path="/client/addclient_cart/**"/>
+      		<!--拦截支付功能-->
+      		<mvc:mapping path="/client/client_pay"/>
+      		<mvc:mapping path="/client/client_pay/"/>
+      		<mvc:mapping path="/client_alter_otherphandad/**"/>
+      		<mvc:mapping path="/client/client_alter_phandad"/>
+      		<mvc:mapping path="/client/client_alter_phandad/"/>
+      		<mvc:mapping path="/client/client_otherpay/**"/>
+      		<mvc:mapping path="/client/client_billdetails/**"/>
+      		<!--拦截显示订单详情-->
+      		<mvc:mapping path="/client/client_bill/**"/>
+      		<!--拦截评论-->
+      		<mvc:mapping path="/client/client_goodscomment/**"/>
+      		<mvc:mapping path="/client/client_add_blogasy/**"/>
+      		<!--拦截联系我们-->
+      		<mvc:mapping path="/client/client_view_contact"/>
+      		<mvc:mapping path="/client/client_view_contact/"/>
+    		<bean class="com.taffle.interceptor.ClientInterceptor" />
+    	</mvc:interceptor> 
+    </mvc:interceptors>
 </beans>

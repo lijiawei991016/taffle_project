@@ -42,15 +42,9 @@ public class UserController {
 	}
 
 	// 跳转到注册
-	@RequestMapping(value = "/regedi", method = RequestMethod.GET)
+	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public String regedit(@ModelAttribute User user) {
 		return "regidit";
-	}
-
-	// 跳转到忘记密码
-	@RequestMapping(value = "/forget", method = RequestMethod.GET)
-	public String forget() {
-		return "client_forget";
 	}
 
 	// 登录校验
@@ -60,23 +54,23 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}
-
-		model.addAttribute("user");
+		model.addAttribute("user",user);
 		User result = userService.findUserByIdAndPsw(user.getUserId(), user.getUserPsw());
 		if (null == result) {
 			model.addAttribute("error", "账户或密码错误");
 			return "login";
 		}
-		session.setAttribute("loginer", result);
-
 		String conform = (String) session.getAttribute("yzm");
 		if (!conform.equals(code)) {
 			model.addAttribute("error", "验证码不正确");
 			return "login";
 		}
 		if (result.getUserAlice().equals("系统管理员")) {
-			return "index";
+			session.setAttribute("loginer", result);
+			return "server_index";
 		}
+		session.removeAttribute("billCodes");
+		session.setAttribute("loginer", result);
 		return "redirect:/";
 	}
 
@@ -99,8 +93,7 @@ public class UserController {
 		}
 		user.setUserCreateDate(new Date());
 		if (userAlice.equals("系统管理员")) {
-			model.addAttribute("err", "账户已经存在");
-
+			model.addAttribute("err", "昵称非法");
 			return "regidit";
 		}
 
@@ -117,28 +110,29 @@ public class UserController {
 
 	}
 
+	// 跳转到忘记密码
+	@RequestMapping(value = "/client_forget_pswd", method = RequestMethod.GET)
+	public String forget(Model model) {
+		return "client_forget_pswd";
+	}
+
 	// 忘记密码
-	@RequestMapping(value = "/user_reset_password")
+	@RequestMapping(value = "/client_forget_pswd", method = RequestMethod.POST)
 	public String userResetPassword(String userId, String yzm, HttpSession session, Model model) {
 		User ue = userService.findUserById(userId);
 		if (null == ue) {
 			model.addAttribute("error", "账户不存在");
-			return "client_forget";
-
+			return "client_forget_pswd";
 		}
-
 		if (StringUtils.isNullOrEmpty(userId) || StringUtils.isNullOrEmpty(yzm)) {
-			model.addAttribute("error", "账户和验证码不能为空");
-			return "client_forget";
+			model.addAttribute("error", "账户和验证码都不能为空");
+			return "client_forget_pswd";
 		}
-
 		Object object = session.getAttribute("yzm");
 		if (!yzm.equals(object.toString())) {
 			model.addAttribute("error", "验证码输入错误");
-			return "client_forget";
-
+			return "client_forget_pswd";
 		}
-
 		ue.setUserPsw("000000");
 		ue.setUserUpdateDate(new Date());
 		userService.updateUserPswById(ue);
@@ -182,6 +176,23 @@ public class UserController {
 		}
 		model.addAttribute("error", "密码重置成功，请到邮箱查看");
 
-		return "client_forget";
+		return "client_forget_pswd";
+	}
+
+	// 客户端登出
+	@RequestMapping("/loginer_out")
+	public String outToIndex(HttpSession session) {
+		// 移出session的loginer
+		session.removeAttribute("loginer");
+
+		return "redirect:/";
+	}
+
+	// 后台登出
+	@RequestMapping("/server_loginer_out")
+	public String outToIndex2(HttpSession session) {
+		// 移出session的loginer
+		session.removeAttribute("loginer");
+		return "redirect:/login";
 	}
 }

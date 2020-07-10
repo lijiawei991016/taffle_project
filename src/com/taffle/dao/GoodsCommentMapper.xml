@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taffle.dao.GoodsCommentMapper">
+	<resultMap type="GoodsComment" id="goodscommentMap">
+		<id property="commentId" column="commentId" />
+		<association property="user" javaType="User">
+			<id property="userId" column="userId" />
+		</association>
+		<association property="goods" javaType="Goods">
+			<id property="goodsId" column="goodsId" />
+		</association>
+	</resultMap>
+	<!-- //添加商品用户评论 -->
+	<insert id="addgoodsComment" parameterType="GoodsComment">
+		insert into
+		taffle_goods_comment(commentId,commentMessage,goodsId,userId,commentDate)
+		values(#{commentId},#{commentMessage},#{goods.goodsId},#{user.userId},#{commentDate})
+	</insert>
+
+	<!-- 根据goodsId 获取其所有对应的用户评论 -->
+	<select id="findGoodsCommentBygoodsId" resultMap="goodscommentMap">
+		select commentMessage,
+		taffle_goods_comment.goodsId,
+		taffle_goods_comment.userId,
+		commentDate,
+		userAlice,userPhoto
+		from taffle_goods_comment
+		left join taffle_user on taffle_goods_comment.userId = taffle_user.userId
+		left join taffle_goods on taffle_goods_comment.goodsId =
+		taffle_goods.goodsId
+		where taffle_goods_comment.goodsId = #{goodsId};
+	</select>
+</mapper>
