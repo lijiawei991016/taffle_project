@@ -181,10 +181,10 @@
 							</div>
 							<div class="price">
 								<ins>
-									<span class="amount">$56.00</span>
+									<span class="amount">￥56.00</span>
 								</ins>
 								<del>
-									<span class="amount">$73.00</span>
+									<span class="amount">￥73.00</span>
 								</del>
 							</div>
 						</li>
@@ -201,7 +201,7 @@
 								<a>荷兰书包</a>
 							</div>
 							<div class="price">
-								<span class="amount">$33.00</span>
+								<span class="amount">￥33.00</span>
 							</div>
 						</li>
 						<li class="product">
@@ -217,7 +217,7 @@
 								<a>木平板电脑甲板</a>
 							</div>
 							<div class="price">
-								<span class="amount">$30.00</span>
+								<span class="amount">￥30.00</span>
 							</div>
 						</li>
 						<li class="product">
@@ -233,7 +233,7 @@
 								<a>Roniq 手表</a>
 							</div>
 							<div class="price">
-								<span class="amount">$128.00</span>
+								<span class="amount">￥128.00</span>
 							</div>
 						</li>
 					</ul>
